@@ -9,7 +9,7 @@
  */
 
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import {z} from 'zod';
 
 const SuggestApiKeyScopesInputSchema = z.object({
   description: z
@@ -47,12 +47,10 @@ const prompt = ai.definePrompt({
   Respond with a list of suggested scopes and a brief explanation of why each scope is necessary.
 
   Example output:
-  ```json
   {
     "suggestedScopes": ["read", "write"],
     "reasoning": "The API key will be used to read and write data, so both the 'read' and 'write' scopes are required."
   }
-  ```
   `,
 });
 
