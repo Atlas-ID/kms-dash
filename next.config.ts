@@ -8,6 +8,36 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  // Ignore webpack build errors - this project uses Genkit AI which has Node.js dependencies
+  // that cannot be bundled for browser/edge runtime. This is a known limitation.
+  webpack: (config, options) => {
+    if (!options.isServer) {
+      // Don't bundle server-only modules on the client
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+        crypto: false,
+        stream: false,
+        zlib: false,
+        http: false,
+        https: false,
+        child_process: false,
+        dgram: false,
+        path: false,
+      };
+    }
+    // Continue on error to allow build to complete despite module resolution issues
+    config.ignoreWarnings = [
+      {module: /@grpc\/grpc-js/},
+      {module: /@opentelemetry/},
+      {module: /agent-base/},
+      {module: /google-auth-library/},
+      {module: /gaxios/},
+    ];
+    return config;
+  },
   images: {
     remotePatterns: [
       {
@@ -30,24 +60,18 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      // Don't bundle server-only modules on the client
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-        net: false,
-        tls: false,
-        crypto: false,
-        stream: false,
-        zlib: false,
-        http: false,
-        https: false,
-        child_process: false,
-      };
-    }
-    return config;
-  },
+  serverExternalPackages: [
+    'genkit',
+    '@genkit-ai/core',
+    '@genkit-ai/google-genai',
+    '@opentelemetry/sdk-node',
+    '@grpc/grpc-js',
+    '@opentelemetry/exporter-jaeger',
+    '@opentelemetry/exporter-trace-otlp-grpc',
+    '@opentelemetry/otlp-grpc-exporter-base',
+    'google-auth-library',
+    'gaxios',
+  ],
 };
 
 export default nextConfig;

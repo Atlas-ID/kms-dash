@@ -31,38 +31,40 @@ export type SuggestApiKeyScopesOutput = z.infer<typeof SuggestApiKeyScopesOutput
 export async function suggestApiKeyScopes(
   input: SuggestApiKeyScopesInput
 ): Promise<SuggestApiKeyScopesOutput> {
+  const aiInstance = await ai();
+  
+  const prompt = aiInstance.definePrompt({
+    name: 'suggestApiKeyScopesPrompt',
+    input: {schema: SuggestApiKeyScopesInputSchema},
+    output: {schema: SuggestApiKeyScopesOutputSchema},
+    prompt: `You are an expert in API key security and access control.
+
+    Based on the provided description of the API key's intended use, suggest the optimal scopes and permissions that should be granted to the key.
+
+    Description: {{{description}}}
+
+    Respond with a list of suggested scopes and a brief explanation of why each scope is necessary.
+
+    Example output:
+    {
+      "suggestedScopes": ["read", "write"],
+      "reasoning": "The API key will be used to read and write data, so both the 'read' and 'write' scopes are required."
+    }
+    `,
+  });
+
+  const suggestApiKeyScopesFlow = aiInstance.defineFlow(
+    {
+      name: 'suggestApiKeyScopesFlow',
+      inputSchema: SuggestApiKeyScopesInputSchema,
+      outputSchema: SuggestApiKeyScopesOutputSchema,
+    },
+    async input => {
+      const {output} = await prompt(input);
+      return output!;
+    }
+  );
+
   return suggestApiKeyScopesFlow(input);
 }
-
-const prompt = ai.definePrompt({
-  name: 'suggestApiKeyScopesPrompt',
-  input: {schema: SuggestApiKeyScopesInputSchema},
-  output: {schema: SuggestApiKeyScopesOutputSchema},
-  prompt: `You are an expert in API key security and access control.
-
-  Based on the provided description of the API key's intended use, suggest the optimal scopes and permissions that should be granted to the key.
-
-  Description: {{{description}}}
-
-  Respond with a list of suggested scopes and a brief explanation of why each scope is necessary.
-
-  Example output:
-  {
-    "suggestedScopes": ["read", "write"],
-    "reasoning": "The API key will be used to read and write data, so both the 'read' and 'write' scopes are required."
-  }
-  `,
-});
-
-const suggestApiKeyScopesFlow = ai.defineFlow(
-  {
-    name: 'suggestApiKeyScopesFlow',
-    inputSchema: SuggestApiKeyScopesInputSchema,
-    outputSchema: SuggestApiKeyScopesOutputSchema,
-  },
-  async input => {
-    const {output} = await prompt(input);
-    return output!;
-  }
-);
 

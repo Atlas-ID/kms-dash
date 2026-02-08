@@ -1,7 +1,22 @@
-import {ai as genkitAI} from '@genkit-ai/next';
-import {googleAI} from '@genkit-ai/google-genai';
+import 'server-only';
 
-export const ai = genkitAI({
-  plugins: [googleAI()],
-  model: 'googleai/gemini-2.5-flash',
-});
+let aiInstance: any = null;
+
+async function getAI() {
+  if (aiInstance) {
+    return aiInstance;
+  }
+
+  // Dynamically import genkit to avoid bundling server-only dependencies at build time
+  const {genkit} = await import('genkit');
+  const {googleAI} = await import('@genkit-ai/google-genai');
+
+  aiInstance = genkit({
+    plugins: [googleAI()],
+    model: 'googleai/gemini-2.5-flash',
+  });
+
+  return aiInstance;
+}
+
+export {getAI as ai};
