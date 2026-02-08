@@ -1,8 +1,10 @@
 import 'server-only';
 
-let aiInstance: any = null;
+import type {Genkit} from 'genkit';
 
-async function getAI() {
+let aiInstance: Genkit | null = null;
+
+async function getAI(): Promise<Genkit> {
   if (aiInstance) {
     return aiInstance;
   }

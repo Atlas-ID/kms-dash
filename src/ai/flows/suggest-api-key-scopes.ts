@@ -59,7 +59,7 @@ export async function suggestApiKeyScopes(
       inputSchema: SuggestApiKeyScopesInputSchema,
       outputSchema: SuggestApiKeyScopesOutputSchema,
     },
-    async input => {
+    async (input) => {
       const {output} = await prompt(input);
       return output!;
     }

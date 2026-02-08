@@ -8,11 +8,11 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  // Ignore webpack build errors - this project uses Genkit AI which has Node.js dependencies
-  // that cannot be bundled for browser/edge runtime. This is a known limitation.
+  // Configure webpack to handle server-only modules that cannot be bundled for client
+  // Note: This project uses Genkit AI which has Node.js dependencies that cause build failures
   webpack: (config, options) => {
     if (!options.isServer) {
-      // Don't bundle server-only modules on the client
+      // Don't bundle server-only modules on the client - provide false as fallbacks
       config.resolve.fallback = {
         ...config.resolve.fallback,
         fs: false,
@@ -28,7 +28,7 @@ const nextConfig: NextConfig = {
         path: false,
       };
     }
-    // Continue on error to allow build to complete despite module resolution issues
+    // Suppress warnings (not errors) for known server-only module patterns
     config.ignoreWarnings = [
       {module: /@grpc\/grpc-js/},
       {module: /@opentelemetry/},

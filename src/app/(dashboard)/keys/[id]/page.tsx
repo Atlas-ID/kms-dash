@@ -13,12 +13,13 @@ import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { Copy, RefreshCw, Trash2, Power } from 'lucide-react';
 
-export default function ApiKeyDetailsPage({
+export default async function ApiKeyDetailsPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const key = apiKeys.find((k) => k.id === params.id);
+  const { id } = await params;
+  const key = apiKeys.find((k) => k.id === id);
 
   if (!key) {
     notFound();
