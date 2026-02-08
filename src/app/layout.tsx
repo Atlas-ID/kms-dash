@@ -4,6 +4,8 @@ import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { cn } from '@/lib/utils';
 
+export const runtime = 'edge';
+
 export const metadata: Metadata = {
   title: 'KeyMaster Dashboard',
   description: 'Dashboard for API Key Management Service',
