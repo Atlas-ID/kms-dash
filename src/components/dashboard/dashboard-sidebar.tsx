@@ -7,7 +7,7 @@ import {
   SidebarHeader,
 } from '@/components/ui/sidebar';
 import { SidebarNav } from './sidebar-nav';
-import { KeySquare, LogOut, Settings } from 'lucide-react';
+import { Triangle, LogOut, Settings } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -29,7 +29,7 @@ export function DashboardSidebar() {
       <SidebarHeader>
         <div className="flex items-center gap-2">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <KeySquare className="h-6 w-6" />
+            <Triangle className="h-6 w-6" />
           </div>
           <span className="font-headline text-lg font-bold">KeyMaster</span>
         </div>
