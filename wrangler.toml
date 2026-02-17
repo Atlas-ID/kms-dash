@@ -1,0 +1,13 @@
+name = "kms-dashboard"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[build]
+command = "npx @cloudflare/next-on-pages"
+
+[[kv_namespaces]]
+binding = "KV"
+id = "your-kv-namespace-id"
+
+[ai]
+binding = "AI"

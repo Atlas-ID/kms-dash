@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Copy, MoreHorizontal, Pencil, Trash2, Eye } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { useSileo } from '@/hooks/use-sileo';
 import type { ApiKey } from '@/lib/types';
 import { DeleteApiKeyDialog } from './delete-api-key-dialog';
 import { useState } from 'react';
@@ -20,7 +20,7 @@ interface ApiKeyTableActionsProps {
 }
 
 export function ApiKeyTableActions({ apiKey }: ApiKeyTableActionsProps) {
-  const { toast } = useToast();
+  const { success, error } = useSileo();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const router = useRouter();
 
@@ -30,10 +30,7 @@ export function ApiKeyTableActions({ apiKey }: ApiKeyTableActionsProps) {
 
   const onCopy = () => {
     navigator.clipboard.writeText(maskKey(apiKey.key));
-    toast({
-      title: 'Copied to clipboard',
-      description: 'Masked API key has been copied.',
-    });
+    success('Copied to clipboard', 'Masked API key has been copied.');
   };
 
   return (
@@ -44,7 +41,7 @@ export function ApiKeyTableActions({ apiKey }: ApiKeyTableActionsProps) {
         apiKeyName={apiKey.name}
         onDelete={() => {
           console.log(`Deleting ${apiKey.name}`);
-          toast({ title: `Key "${apiKey.name}" deleted.` });
+          success(`Key "${apiKey.name}" deleted.`);
         }}
       />
       <DropdownMenu>

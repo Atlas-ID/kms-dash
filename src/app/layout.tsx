@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/components/providers/theme-provider';
+import { PolarisProvider } from '@/components/providers/polaris-provider';
+import { SileoProvider } from '@/components/providers/sileo-provider';
 import { cn } from '@/lib/utils';
 
 export const runtime = 'edge';
@@ -26,10 +28,14 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className={cn('font-body antialiased')}>
+      <body className={cn('font-body antialiased')} suppressHydrationWarning>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
-          <Toaster />
+          <PolarisProvider>
+            <SileoProvider>
+              {children}
+              <Toaster />
+            </SileoProvider>
+          </PolarisProvider>
         </ThemeProvider>
       </body>
     </html>

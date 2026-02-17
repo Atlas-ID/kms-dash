@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { BarChart, KeyRound, Lightbulb, Settings, Home } from 'lucide-react';
+import { BarChart, KeyRound, Lightbulb, Settings, Home, Plug } from 'lucide-react';
 import {
   SidebarMenu,
   SidebarMenuItem,
@@ -11,6 +11,7 @@ import Link from 'next/link';
 
 const navItems = [
   { href: '/keys', label: 'API Keys', icon: KeyRound },
+  { href: '/integrations', label: 'Integrations', icon: Plug },
   { href: '/statistics', label: 'Statistics', icon: BarChart },
   { href: '/suggest-scopes', label: 'Suggest Scopes', icon: Lightbulb },
   { href: '/settings', label: 'Settings', icon: Settings, hideInNav: true },

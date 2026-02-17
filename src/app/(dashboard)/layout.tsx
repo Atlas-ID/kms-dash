@@ -3,8 +3,7 @@
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/use-auth';
-import { SidebarProvider, Sidebar, SidebarInset } from '@/components/ui/sidebar';
-import { DashboardSidebar } from '@/components/dashboard/dashboard-sidebar';
+import { PolarisLayout } from '@/components/dashboard/polaris-layout';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function DashboardLayout({
@@ -39,11 +38,8 @@ export default function DashboardLayout({
   }
 
   return (
-    <SidebarProvider>
-      <div className="flex min-h-screen">
-        <DashboardSidebar />
-        <SidebarInset>{children}</SidebarInset>
-      </div>
-    </SidebarProvider>
+    <PolarisLayout>
+      {children}
+    </PolarisLayout>
   );
 }

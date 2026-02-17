@@ -23,7 +23,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/hooks/use-auth';
-import { useToast } from '@/hooks/use-toast';
+import { useSileo } from '@/hooks/use-sileo';
 
 const FormSchema = z.object({
   adminKey: z.string().min(1, 'Admin Key cannot be empty.'),
@@ -31,7 +31,7 @@ const FormSchema = z.object({
 
 export function SettingsForm() {
   const { adminKey, setAdminKey } = useAuth();
-  const { toast } = useToast();
+  const { success } = useSileo();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -42,10 +42,7 @@ export function SettingsForm() {
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     setAdminKey(data.adminKey);
-    toast({
-      title: 'Settings Updated',
-      description: 'Your Admin API Key has been successfully updated.',
-    });
+    success('Settings Updated', 'Your Admin API Key has been successfully updated.');
   }
 
   return (

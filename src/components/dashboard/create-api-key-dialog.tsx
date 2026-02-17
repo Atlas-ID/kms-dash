@@ -25,7 +25,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createApiKeySchema, type CreateApiKeySchema } from '@/lib/schemas';
-import { useToast } from '@/hooks/use-toast';
+import { useSileo } from '@/hooks/use-sileo';
 import { ApiKeyGeneratedDialog } from './api-key-generated-dialog';
 
 const availableScopes = ['read', 'write', 'delete', 'admin'];
@@ -39,7 +39,7 @@ export function CreateApiKeyDialog({
   const [generatedKey, setGeneratedKey] = useState<string | null>(null);
   const [showGeneratedKeyDialog, setShowGeneratedKeyDialog] = useState(false);
 
-  const { toast } = useToast();
+  const { success } = useSileo();
 
   const form = useForm<CreateApiKeySchema>({
     resolver: zodResolver(createApiKeySchema),
@@ -61,10 +61,7 @@ export function CreateApiKeyDialog({
     setShowGeneratedKeyDialog(true);
     setOpen(false);
     form.reset();
-    toast({
-      title: 'API Key Created',
-      description: `The key "${values.name}" has been successfully created.`,
-    });
+    success('API Key Created', `The key "${values.name}" has been successfully created.`);
   };
 
   return (

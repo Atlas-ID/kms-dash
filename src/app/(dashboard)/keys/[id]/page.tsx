@@ -13,12 +13,13 @@ import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { Copy, RefreshCw, Trash2, Power } from 'lucide-react';
 
-export default function ApiKeyDetailsPage({
+export default async function ApiKeyDetailsPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const key = apiKeys.find((k) => k.id === params.id);
+  const { id } = await params;
+  const key = apiKeys.find((k) => k.id === id);
 
   if (!key) {
     notFound();
@@ -111,10 +112,10 @@ export default function ApiKeyDetailsPage({
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">Status</span>
                 <Badge
-                  variant={key.status === 'active' ? 'default' : 'destructive'}
-                  className={key.status === 'active' ? 'bg-green-500' : ''}
+                  variant={key.active ? 'default' : 'destructive'}
+                  className={key.active ? 'bg-green-500' : ''}
                 >
-                  {key.status}
+                  {key.active ? 'Active' : 'Revoked'}
                 </Badge>
               </div>
               <Separator />
@@ -125,7 +126,7 @@ export default function ApiKeyDetailsPage({
                 </Button>
                 <Button variant="outline">
                   <Power />
-                  {key.status === 'active' ? 'Deactivate' : 'Activate'}
+                  {key.active ? 'Deactivate' : 'Activate'}
                 </Button>
                 <Button variant="destructive" className="col-span-2">
                   <Trash2 />

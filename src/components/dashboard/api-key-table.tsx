@@ -89,16 +89,16 @@ export const columns: ColumnDef<ApiKey>[] = [
         : 'Never',
   },
   {
-    accessorKey: 'status',
+    accessorKey: 'active',
     header: 'Status',
     cell: ({ row }) => {
-      const isActive = row.original.status === 'active';
+      const isActive = row.original.active;
       return (
         <Badge
           className={isActive ? 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300' : ''}
           variant={isActive ? 'outline' : 'destructive'}
         >
-          {row.original.status}
+          {isActive ? 'Active' : 'Revoked'}
         </Badge>
       );
     },

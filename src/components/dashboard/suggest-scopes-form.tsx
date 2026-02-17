@@ -11,9 +11,8 @@ import {
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { suggestApiKeyScopes } from '@/app/actions';
+import { suggestApiKeyScopes, SuggestApiKeyScopesOutput } from '@/app/actions';
 import { Loader2, Wand2 } from 'lucide-react';
-import type { SuggestApiKeyScopesOutput } from '@/ai/flows/suggest-api-key-scopes';
 import { Badge } from '../ui/badge';
 import { Separator } from '../ui/separator';
 

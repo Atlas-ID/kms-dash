@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard';
+import { useSileo } from '@/hooks/use-sileo';
 import { AlertCircle, Check, Copy } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
@@ -27,9 +28,11 @@ export function ApiKeyGeneratedDialog({
   onOpenChange,
 }: ApiKeyGeneratedDialogProps) {
   const { isCopied, copyToClipboard } = useCopyToClipboard();
+  const { success } = useSileo();
 
   const handleCopy = () => {
     copyToClipboard(apiKey);
+    success('API Key Copied', 'Your API key has been copied to clipboard.');
   };
 
   return (
